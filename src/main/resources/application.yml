@@ -1,0 +1,69 @@
+server:
+  port: 8030
+spring:
+  application:
+    name: cloud-schedule-center  #全部小写
+
+
+#####################################################################################################
+# mysql  属性及连接池配置
+  datasource:
+    url: jdbc:mysql://115.159.31.229:3306/schedule_center?serverTimezone=UTC&useUnicode=true&characterEncoding=utf8
+    username: root
+    password: CloudBase123!@#
+    type: com.alibaba.druid.pool.DruidDataSource
+    druid:
+      filters: stat
+      max-active: 20
+      min-idle: 1
+      time-between-eviction-runs-millis: 60000
+      min-evictable-idle-time-millis: 300000
+      validation-query: select 'x'
+      test-while-idle: true
+      test-on-return: false
+      pool-prepared-statements: true
+      max-open-prepared-statements: 20
+    driver-class-name: com.mysql.cj.jdbc.Driver
+#####################################################################################################
+
+
+
+
+
+
+
+#####################################################################################################
+#########mysql######### 注释先不用这些属性
+#spring.datasource.type=com.alibaba.druid.pool.DruidDataSource
+#spring.datasource.driver-class-name=com.mysql.jdbc.Driver
+#spring.datasource.url=jdbc:mysql://127.0.0.1:3306/test_job?useUnicode=true&characterEncoding=UTF-8&autoReconnect=true
+#spring.datasource.username=test
+#spring.datasource.password=test
+#
+#
+#spring.datasource.initialSize=5
+#spring.datasource.minIdle=5
+#spring.datasource.maxActive=20
+#spring.datasource.maxWait=60000
+#
+#
+#spring.datasource.timeBetweenEvictionRunsMillis=3600000
+#spring.datasource.minEvictableIdleTimeMillis=18000000
+#
+#
+#spring.datasource.validationQuery=SELECT 1 FROM DUAL
+#spring.datasource.testWhileIdle=true
+#spring.datasource.testOnBorrow=true
+#spring.datasource.testOnReturn=true
+#spring.datasource.poolPreparedStatements=true
+#spring.datasource.maxPoolPreparedStatementPerConnectionSize=20
+#spring.datasource.filters=stat,wall,log4j
+#spring.datasource.connectionProperties=druid.stat.mergeSql=true;druid.stat.slowSqlMillis=5000
+#####################################################################################################
+
+
+
+
+
+
+
