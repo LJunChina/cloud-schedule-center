@@ -1,6 +1,7 @@
 package com.cloud.base.schedule.job.task;
 
 import org.quartz.JobExecutionContext;
+import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.scheduling.annotation.EnableScheduling;
@@ -24,10 +25,9 @@ import org.springframework.stereotype.Component;
 @EnableScheduling
 public class ScheduleTask {
 
-    private static final org.slf4j.Logger Logger = LoggerFactory.getLogger(ScheduleTask.class);
+    private static final Logger logger = LoggerFactory.getLogger(ScheduleTask.class);
 
     public void sayHello(JobExecutionContext context){
-        Logger.info("====    sayHello 123456789    ====");
-        System.out.println("====    sayHello 123456789    ====");
-    }    
+        logger.info("====    sayHello 123456789    ====");
+    }
 }  

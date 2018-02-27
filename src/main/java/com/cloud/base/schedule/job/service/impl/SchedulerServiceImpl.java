@@ -78,7 +78,7 @@ public class SchedulerServiceImpl implements ISchedulerService {
             trigger.setJobName(jobDetail.getKey().getName());  
             trigger.setKey(triggerKey);  
   
-            try {  
+            try {
                 scheduler.addJob(jobDetail, true);  
                 if (scheduler.checkExists(triggerKey)) {  
                     scheduler.rescheduleJob(triggerKey, trigger);  

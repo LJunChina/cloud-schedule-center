@@ -5,14 +5,7 @@ import org.quartz.CronExpression;
 import java.util.Date;
 
 /**
- * 调度服务接口。
- *
- * @author hmilyylimh
- *
- * @version 0.0.1
- *
- * @date 2017/9/18
- *
+ * 调度服务接口
  */
 public interface ISchedulerService {
     
