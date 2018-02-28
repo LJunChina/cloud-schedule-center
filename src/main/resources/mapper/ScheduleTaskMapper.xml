@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.cloud.base.schedule.job.dao.ScheduleTaskDao">
+    <resultMap id="BaseResultMap" type="com.cloud.base.schedule.job.model.ScheduleTask">
+        <id column="ID" jdbcType="BIGINT" property="id" />
+        <result column="JOB_NAME" jdbcType="VARCHAR" property="jobName" />
+        <result column="JOB_GROUP" jdbcType="VARCHAR" property="jobGroup" />
+        <result column="JOB_STATUS" jdbcType="VARCHAR" property="jobStatus" />
+        <result column="CRON_EXPRESSION" jdbcType="VARCHAR" property="cronExpression" />
+        <result column="DESCRIPTION" jdbcType="VARCHAR" property="description" />
+        <result column="BEAN_CLASS" jdbcType="VARCHAR" property="beanClass" />
+        <result column="IS_CONCURRENT" jdbcType="VARCHAR" property="isConcurrent" />
+        <result column="METHOD_NAME" jdbcType="VARCHAR" property="methodName" />
+        <result column="REMOTE_URI" jdbcType="VARCHAR" property="remoteUri" />
+    </resultMap>
+    <sql id="Base_Column_List">
+        ID,CREATE_AT,CREATE_BY,UPDATE_AT,UPDATE_BY,JOB_NAME,JOB_GROUP,JOB_STATUS,CRON_EXPRESSION,DESCRIPTION,BEAN_CLASS,IS_CONCURRENT,METHOD_NAME,REMOTE_URI
+    </sql>
+    <insert id="save" parameterType="com.cloud.base.schedule.job.model.ScheduleTask">
+        INSERT INTO schedule_task
+        (CREATE_AT,
+         CREATE_BY,
+         UPDATE_AT,
+         UPDATE_BY,
+         JOB_NAME,
+         JOB_GROUP,
+         JOB_STATUS,
+         CRON_EXPRESSION,
+         DESCRIPTION,
+         BEAN_CLASS,
+         IS_CONCURRENT,
+         METHOD_NAME,
+         REMOTE_URI)
+        VALUES
+            (NOW(),'system',NOW(),'system',
+           #{jobName,jdbcType=VARCHAR},
+           #{jobGroup,jdbcType=VARCHAR},
+           #{jobStatus,jdbcType=VARCHAR},
+           #{cronExpression,jdbcType=VARCHAR},
+           #{description,jdbcType=VARCHAR},
+           #{beanClass,jdbcType=VARCHAR},
+           #{isConcurrent,jdbcType=VARCHAR},
+             #{methodName,jdbcType=VARCHAR},
+             #{remoteUri,jdbcType=VARCHAR})
+    </insert>
+    <select id="getAllTasks" resultMap="BaseResultMap">
+        SELECT <include refid="Base_Column_List" /> FROM schedule_task WHERE JOB_STATUS = '0'
+    </select>
+</mapper>
