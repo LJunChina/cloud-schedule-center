@@ -65,6 +65,26 @@ public class ScheduleTask implements Serializable {
      */
     private String remoteUri;
 
+    private String jobType;
+
+    private String jobParams;
+
+    public String getJobType() {
+        return jobType;
+    }
+
+    public void setJobType(String jobType) {
+        this.jobType = jobType;
+    }
+
+    public String getJobParams() {
+        return jobParams;
+    }
+
+    public void setJobParams(String jobParams) {
+        this.jobParams = jobParams;
+    }
+
     public Long getId() {
         return id;
     }
