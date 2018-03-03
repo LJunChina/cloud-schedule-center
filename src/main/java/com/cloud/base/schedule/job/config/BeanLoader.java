@@ -7,6 +7,7 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.core.io.FileSystemResource;
 import org.springframework.scheduling.quartz.SchedulerFactoryBean;
+import org.springframework.transaction.PlatformTransactionManager;
 
 import javax.sql.DataSource;
 import java.net.URL;
@@ -25,6 +26,9 @@ public class BeanLoader {
 
     @Autowired
     private LoadBeanJobFactory loadBeanJobFactory;
+
+    @Autowired
+    private PlatformTransactionManager transactionManager;
 
     @Bean
     public SchedulerFactoryBean createSchedule(){
@@ -46,6 +50,7 @@ public class BeanLoader {
         }
         factory.setConfigLocation(new FileSystemResource(url.getPath()));
         factory.setJobFactory(loadBeanJobFactory);
+        factory.setTransactionManager(transactionManager);
         return factory;
     }
 }
