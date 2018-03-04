@@ -29,7 +29,8 @@ public class JobBootstrap implements InitializingBean {
     @Override
     public void afterPropertiesSet() throws Exception {
         LOGGER.info("********* start schedule task **********");
-        Scheduler scheduler = schedulerFactoryBean.getScheduler();
+        Scheduler scheduler = this.schedulerFactoryBean.getScheduler();
+        scheduler.clear();
         TriggerKey triggerKey = TriggerKey.triggerKey("scan-job", "scan");
         CronTrigger trigger = (CronTrigger) scheduler.getTrigger(triggerKey);
         if (null == trigger) {
@@ -38,23 +39,14 @@ public class JobBootstrap implements InitializingBean {
                     .newJob(clazz)
                     .withIdentity("scan-job", "scan")
                     .build();
-            //jobDetail.getJobDataMap().put("scheduleJob", job);
             // 表达式调度构建器
-            CronScheduleBuilder scheduleBuilder = CronScheduleBuilder.cronSchedule("0/15 * * ? * * *");
+            CronScheduleBuilder scheduleBuilder = CronScheduleBuilder.cronSchedule("0/30 * * ? * * *");
             // 按新的cronExpression表达式构建一个新的trigger
             trigger = TriggerBuilder
                     .newTrigger()
                     .withIdentity("scan-job","scan")
                     .withSchedule(scheduleBuilder).build();
             scheduler.scheduleJob(jobDetail, trigger);
-        } else {
-            // Trigger已存在，那么更新相应的定时设置
-            // 表达式调度构建器
-            CronScheduleBuilder scheduleBuilder = CronScheduleBuilder.cronSchedule("0/15 * * ? * * *");
-            // 按新的cronExpression表达式重新构建trigger
-            trigger = trigger.getTriggerBuilder().withIdentity(triggerKey).withSchedule(scheduleBuilder).build();
-            // 按新的trigger重新设置job执行
-            scheduler.rescheduleJob(triggerKey, trigger);
         }
     }
 }

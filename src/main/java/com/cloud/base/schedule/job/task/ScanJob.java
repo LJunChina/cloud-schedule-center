@@ -1,6 +1,7 @@
 package com.cloud.base.schedule.job.task;
 
 import com.cloud.base.schedule.job.dao.ScheduleTaskDao;
+import com.cloud.base.schedule.job.enums.JobTypeEnum;
 import com.cloud.base.schedule.job.model.ScheduleTask;
 import com.cloud.base.schedule.job.util.SpringContextUtil;
 import org.quartz.*;
@@ -36,7 +37,7 @@ public class ScanJob implements Job {
             }
             //过滤远程任务
             scheduleTaskList = scheduleTaskList.stream()
-                    .filter(s -> "remote".equalsIgnoreCase(s.getJobType())).collect(Collectors.toList());
+                    .filter(s -> JobTypeEnum.REMOTE.getCode().equalsIgnoreCase(s.getJobType())).collect(Collectors.toList());
             if(null == scheduleTaskList){
                 return;
             }
@@ -62,7 +63,7 @@ public class ScanJob implements Job {
                         .newJob(clazz)
                         .withIdentity(job.getJobName(), job.getJobGroup())
                         .build();
-                jobDetail.getJobDataMap().put("scheduleJob", job);
+                jobDetail.getJobDataMap().put("jobBean", job);
                 // 表达式调度构建器
                 CronScheduleBuilder scheduleBuilder = CronScheduleBuilder.cronSchedule(job.getCronExpression());
                 // 按新的cronExpression表达式构建一个新的trigger

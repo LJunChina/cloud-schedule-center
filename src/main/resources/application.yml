@@ -23,12 +23,15 @@ spring:
       pool-prepared-statements: true
       max-open-prepared-statements: 20
     driver-class-name: com.mysql.cj.jdbc.Driver
+  jpa:
+    show-sql: true
 eureka:
   client:
     service-url:
       defaultZone: http://localhost:8000/eureka
 mybatis:
   mapper-locations: classpath:mapper/*.xml
+  config-location: classpath:mybatis-config.xml
 
 
 

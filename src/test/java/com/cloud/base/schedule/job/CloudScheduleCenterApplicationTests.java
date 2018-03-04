@@ -10,8 +10,8 @@ import org.springframework.transaction.annotation.Transactional;
 
 @RunWith(SpringRunner.class)
 @MapperScan(value = "com.cloud.base.schedule.job.dao")
-@Transactional
-@Rollback
+/*@Transactional
+@Rollback*/
 @SpringBootTest
 public class CloudScheduleCenterApplicationTests {
 
