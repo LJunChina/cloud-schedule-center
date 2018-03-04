@@ -69,6 +69,16 @@ public class ScheduleTask implements Serializable {
 
     private String jobParams;
 
+    private String httpMethod;
+
+    public String getHttpMethod() {
+        return httpMethod;
+    }
+
+    public void setHttpMethod(String httpMethod) {
+        this.httpMethod = httpMethod;
+    }
+
     public String getJobType() {
         return jobType;
     }

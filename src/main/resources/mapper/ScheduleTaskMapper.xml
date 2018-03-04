@@ -14,10 +14,11 @@
         <result column="REMOTE_URI" jdbcType="VARCHAR" property="remoteUri" />
         <result column="JOB_TYPE" jdbcType="VARCHAR" property="jobType" />
         <result column="JOB_PARAMS" jdbcType="VARCHAR" property="jobParams" />
+        <result column="HTTP_METHOD" jdbcType="VARCHAR" property="httpMethod" />
     </resultMap>
     <sql id="Base_Column_List">
         ID,CREATE_AT,CREATE_BY,UPDATE_AT,UPDATE_BY,JOB_NAME,JOB_GROUP,JOB_STATUS,CRON_EXPRESSION,DESCRIPTION,
-        BEAN_CLASS,IS_CONCURRENT,METHOD_NAME,REMOTE_URI,JOB_TYPE,JOB_PARAMS
+        BEAN_CLASS,IS_CONCURRENT,METHOD_NAME,REMOTE_URI,JOB_TYPE,JOB_PARAMS,HTTP_METHOD
     </sql>
     <insert id="save" parameterType="com.cloud.base.schedule.job.model.ScheduleTask">
         INSERT INTO schedule_task
@@ -35,7 +36,8 @@
          METHOD_NAME,
          REMOTE_URI,
          JOB_TYPE,
-         JOB_PARAMS)
+         JOB_PARAMS,
+         HTTP_METHOD)
         VALUES
            (NOW(),'system',NOW(),'system',
            #{jobName,jdbcType=VARCHAR},
@@ -46,7 +48,10 @@
            #{beanClass,jdbcType=VARCHAR},
            #{isConcurrent,jdbcType=VARCHAR},
            #{methodName,jdbcType=VARCHAR},
-           #{remoteUri,jdbcType=VARCHAR},#{jobType,jdbcType=VARCHAR},#{jobParams,jdbcType=VARCHAR})
+           #{remoteUri,jdbcType=VARCHAR},
+           #{jobType,jdbcType=VARCHAR},
+           #{jobParams,jdbcType=VARCHAR},
+           #{httpMethod,jdbcType=VARCHAR})
     </insert>
     <select id="getAllTasks" resultMap="BaseResultMap">
         SELECT <include refid="Base_Column_List" /> FROM schedule_task WHERE JOB_STATUS = '0'
