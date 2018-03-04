@@ -2,6 +2,7 @@ package com.cloud.base.schedule.job.config;
 
 import com.cloud.base.schedule.job.exception.QuartzTaskException;
 import com.cloud.base.schedule.job.util.SpringContextUtil;
+import com.cloud.common.util.EmptyChecker;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -45,7 +46,7 @@ public class BeanLoader {
         factory.setApplicationContext(SpringContextUtil.getApplicationContext());
         //注册触发器
         URL url = this.getClass().getClassLoader().getResource("quartz.properties");
-        if(null == url){
+        if(EmptyChecker.isEmpty(url)){
             throw new QuartzTaskException("quartz properties file not found");
         }
         factory.setConfigLocation(new FileSystemResource(url.getPath()));
