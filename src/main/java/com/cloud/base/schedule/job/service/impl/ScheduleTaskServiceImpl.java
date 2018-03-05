@@ -1,6 +1,9 @@
 package com.cloud.base.schedule.job.service.impl;
 
+import com.cloud.base.schedule.job.dao.ScheduleTaskDao;
+import com.cloud.base.schedule.job.model.ScheduleTask;
 import com.cloud.base.schedule.job.service.ScheduleTaskService;
+import com.cloud.base.schedule.job.web.dto.ScheduleTaskRequest;
 import com.cloud.common.dto.BaseRespDTO;
 import com.cloud.common.enums.ResultCode;
 import com.cloud.common.util.EmptyChecker;
@@ -8,6 +11,7 @@ import com.netflix.ribbon.proxy.annotation.Http;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cglib.beans.BeanCopier;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
 import org.springframework.stereotype.Service;
@@ -27,6 +31,9 @@ public class ScheduleTaskServiceImpl implements ScheduleTaskService {
     private static final Logger LOGGER = LoggerFactory.getLogger(ScheduleTaskServiceImpl.class);
     @Autowired
     private RestTemplate restTemplate;
+
+    @Autowired
+    private ScheduleTaskDao scheduleTaskDao;
 
     @Override
     public BaseRespDTO getUserInfo(String id) {
@@ -65,5 +72,23 @@ public class ScheduleTaskServiceImpl implements ScheduleTaskService {
             LOGGER.error("exception occurred in scheduleRemoteJob:",e);
             return new BaseRespDTO(ResultCode.FAIL).toString();
         }
+    }
+
+    /**
+     * 新增任务
+     *
+     * @param request
+     * @return
+     */
+    @Override
+    public BaseRespDTO addScheduleTask(ScheduleTaskRequest request) {
+        ScheduleTask task = new ScheduleTask();
+        BeanCopier copier = BeanCopier.create(ScheduleTaskRequest.class, ScheduleTask.class,false);
+        copier.copy(request,task,null);
+        int effectRow = this.scheduleTaskDao.save(task);
+        if(effectRow == 1){
+            return new BaseRespDTO();
+        }
+        return new BaseRespDTO(ResultCode.FAIL);
     }
 }

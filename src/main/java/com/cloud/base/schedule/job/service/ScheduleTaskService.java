@@ -1,5 +1,6 @@
 package com.cloud.base.schedule.job.service;
 
+import com.cloud.base.schedule.job.web.dto.ScheduleTaskRequest;
 import com.cloud.common.dto.BaseRespDTO;
 
 import java.util.Map;
@@ -21,5 +22,12 @@ public interface ScheduleTaskService {
      * @return
      */
     String scheduleRemoteJob(String uri, String method,Map<String,Object> params);
+
+    /**
+     * 新增任务
+     * @param request
+     * @return
+     */
+    BaseRespDTO addScheduleTask(ScheduleTaskRequest request);
 
 }
