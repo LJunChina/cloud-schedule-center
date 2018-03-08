@@ -33,6 +33,6 @@ public class RemoteJob implements Job {
         JobDataMap dataMap = context.getJobDetail().getJobDataMap();
         ScheduleTask job = (ScheduleTask) dataMap.get("jobBean");
         this.scheduleTaskService.scheduleRemoteJob(job.getRemoteUri(),job.getHttpMethod(), JSON.parseObject(job.getJobParams()));
-        LOGGER.info("------------remote service schedule jon finished------------");
+        LOGGER.info("------------remote service schedule job finished------------");
     }
 }

@@ -1,19 +1,19 @@
 package com.cloud.base.schedule.job.service.impl;
 
 import com.cloud.base.schedule.job.dao.ScheduleTaskDao;
+import com.cloud.base.schedule.job.enums.JobTypeEnum;
 import com.cloud.base.schedule.job.model.ScheduleTask;
 import com.cloud.base.schedule.job.service.ScheduleTaskService;
 import com.cloud.base.schedule.job.web.dto.ScheduleTaskRequest;
 import com.cloud.common.dto.BaseRespDTO;
 import com.cloud.common.enums.ResultCode;
+import com.cloud.common.enums.YesOrNoEnum;
 import com.cloud.common.util.EmptyChecker;
 import com.netflix.ribbon.proxy.annotation.Http;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cglib.beans.BeanCopier;
-import org.springframework.http.HttpEntity;
-import org.springframework.http.HttpHeaders;
 import org.springframework.stereotype.Service;
 import org.springframework.util.LinkedMultiValueMap;
 import org.springframework.util.MultiValueMap;
@@ -85,6 +85,9 @@ public class ScheduleTaskServiceImpl implements ScheduleTaskService {
         ScheduleTask task = new ScheduleTask();
         BeanCopier copier = BeanCopier.create(ScheduleTaskRequest.class, ScheduleTask.class,false);
         copier.copy(request,task,null);
+        task.setJobType(JobTypeEnum.REMOTE.getCode());
+        task.setJobStatus(YesOrNoEnum.NO.getCode());
+        task.setIsConcurrent(YesOrNoEnum.NO.getCode());
         int effectRow = this.scheduleTaskDao.save(task);
         if(effectRow == 1){
             return new BaseRespDTO();

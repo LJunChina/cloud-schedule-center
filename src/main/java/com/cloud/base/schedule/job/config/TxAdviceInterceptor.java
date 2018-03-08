@@ -25,7 +25,7 @@ import java.util.Map;
 @Configuration
 public class TxAdviceInterceptor {
     private static final int TX_METHOD_TIMEOUT = 5;
-    private static final String AOP_POINTCUT_EXPRESSION = "execution (* com.cloud.base.schedule.job.task.*.*(..))";
+    private static final String AOP_POINTCUT_EXPRESSION = "execution (* com.cloud.base.schedule.job.service.*.*(..))";
 
     @Autowired
     private PlatformTransactionManager transactionManager;
