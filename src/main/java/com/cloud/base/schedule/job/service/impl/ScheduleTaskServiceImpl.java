@@ -9,6 +9,8 @@ import com.cloud.common.dto.BaseRespDTO;
 import com.cloud.common.enums.ResultCode;
 import com.cloud.common.enums.YesOrNoEnum;
 import com.cloud.common.util.EmptyChecker;
+import com.github.pagehelper.PageHelper;
+import com.github.pagehelper.PageInfo;
 import com.netflix.ribbon.proxy.annotation.Http;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -93,5 +95,79 @@ public class ScheduleTaskServiceImpl implements ScheduleTaskService {
             return new BaseRespDTO();
         }
         return new BaseRespDTO(ResultCode.FAIL);
+    }
+
+    /**
+     * 定时任务分页查询
+     * @param request
+     * @return
+     */
+    @Override
+    public BaseRespDTO getAllJobsByPage(ScheduleTaskRequest request) {
+        BaseRespDTO respDTO = new BaseRespDTO();
+        PageInfo<ScheduleTask> pageInfo = PageHelper.startPage(request.getPageIndex(),request.getPageSize())
+                .doSelectPageInfo(() -> this.scheduleTaskDao.getAllJobsByPage(request));
+        respDTO.setData(pageInfo);
+        return respDTO;
+    }
+
+    /**
+     * 删除定时任务
+     *
+     * @param id
+     * @return
+     */
+    @Override
+    public BaseRespDTO deleteJob(long id) {
+        if(EmptyChecker.isEmpty(id) || id == 0L){
+            return new BaseRespDTO(ResultCode.PARAMS_NOT_FOUND.getCode(),"任务ID不能为空");
+        }
+        int effectRow = this.scheduleTaskDao.deleteJobById(id);
+        if(1 == effectRow){
+            return new BaseRespDTO();
+        }
+        return new BaseRespDTO(ResultCode.FAIL);
+    }
+
+    /**
+     * 更新定时任务
+     *
+     * @param request
+     * @return
+     */
+    @Override
+    public BaseRespDTO updateJob(ScheduleTaskRequest request) {
+        ScheduleTask task = this.scheduleTaskDao.getJobById(request.getId());
+        if(EmptyChecker.isEmpty(task)){
+            return new BaseRespDTO(ResultCode.NO_DATA_FOUND);
+        }
+        task.setRemoteUri(request.getRemoteUri());
+        task.setJobStatus(request.getJobStatus());
+        task.setJobType(request.getJobType());
+        task.setMethodName(request.getMethodName());
+        task.setJobName(request.getJobName());
+        task.setJobGroup(request.getJobGroup());
+        task.setDescription(request.getDescription());
+        task.setCronExpression(request.getCronExpression());
+        task.setBeanClass(request.getBeanClass());
+        task.setHttpMethod(request.getHttpMethod());
+        int effectRow = this.scheduleTaskDao.updateJob(task);
+        if(1 == effectRow){
+            return new BaseRespDTO();
+        }
+        return new BaseRespDTO(ResultCode.FAIL);
+    }
+
+    /**
+     * 根据id查询定时任务详情
+     *
+     * @param id
+     * @return
+     */
+    @Override
+    public BaseRespDTO getJobById(long id) {
+        BaseRespDTO baseRespDTO = new BaseRespDTO();
+        baseRespDTO.setData(this.scheduleTaskDao.getJobById(id));
+        return baseRespDTO;
     }
 }

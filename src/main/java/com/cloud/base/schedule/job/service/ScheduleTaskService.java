@@ -30,4 +30,32 @@ public interface ScheduleTaskService {
      */
     BaseRespDTO addScheduleTask(ScheduleTaskRequest request);
 
+    /**
+     * 定时任务分页查询
+     * @param request
+     * @return
+     */
+    BaseRespDTO getAllJobsByPage(ScheduleTaskRequest request);
+
+    /**
+     * 删除定时任务
+     * @param id
+     * @return
+     */
+    BaseRespDTO deleteJob(long id);
+
+    /**
+     * 更新定时任务
+     * @param request
+     * @return
+     */
+    BaseRespDTO updateJob(ScheduleTaskRequest request);
+
+    /**
+     * 根据id查询定时任务详情
+     * @param id
+     * @return
+     */
+    BaseRespDTO getJobById(long id);
+
 }

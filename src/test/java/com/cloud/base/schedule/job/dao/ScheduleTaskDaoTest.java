@@ -40,10 +40,17 @@ public class ScheduleTaskDaoTest extends CloudScheduleCenterApplicationTests {
         Assert.assertNotNull(this.scheduleTaskDao.getAllTasks());
     }
 
+
     @Test
-    public void testJSON(){
-        Map<String,Object> params = new HashMap<>();
-        params.put("id",341);
-        System.out.println(JSON.toJSONString(params));
+    public void testDeleteJobById(){
+        Assert.assertTrue(this.scheduleTaskDao.deleteJobById(8L) == 1);
+    }
+
+    @Test
+    public void testUpdateJob(){
+        ScheduleTask task = this.scheduleTaskDao.getJobById(8L);
+        Assert.assertNotNull(task);
+        task.setRemoteUri("update");
+        Assert.assertTrue(1 == this.scheduleTaskDao.updateJob(task));
     }
 }

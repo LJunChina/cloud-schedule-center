@@ -56,4 +56,45 @@
     <select id="getAllTasks" resultMap="BaseResultMap">
         SELECT <include refid="Base_Column_List" /> FROM schedule_task WHERE JOB_STATUS = '0'
     </select>
+    <!--定时任务分页查询-->
+    <select id="getAllJobsByPage" parameterType="com.cloud.base.schedule.job.web.dto.ScheduleTaskRequest" resultMap="BaseResultMap">
+        SELECT <include refid="Base_Column_List"/> FROM schedule_task
+        WHERE 1 = 1
+        <if test="jobName != null and jobName != ''">
+            AND JOB_NAME = #{jobName,jdbcType=VARCHAR}
+        </if>
+        <if test="jobGroup != null and jobGroup != ''">
+            AND JOB_GROUP = #{jobGroup,jdbcType=VARCHAR}
+        </if>
+        <if test="jobStatus != null and jobStatus != ''">
+            AND JOB_STATUS = #{jobStatus,jdbcType=VARCHAR}
+        </if>
+    </select>
+    <!--根据id删除定时任务-->
+    <delete id="deleteJobById">
+        DELETE FROM schedule_task WHERE ID = #{id,jdbcType=NUMERIC}
+    </delete>
+    <!--根据id查询定时任务-->
+    <select id="getJobById" resultMap="BaseResultMap">
+        SELECT <include refid="Base_Column_List"/> FROM schedule_task WHERE ID = #{id,jdbcType=NUMERIC}
+    </select>
+    <!--更新定时任务-->
+    <update id="updateJob" parameterType="com.cloud.base.schedule.job.model.ScheduleTask">
+        UPDATE schedule_task
+        SET
+            CRON_EXPRESSION = #{cronExpression,jdbcType=VARCHAR},
+            JOB_NAME = #{jobName,jdbcType=VARCHAR},
+            JOB_GROUP = #{jobGroup,jdbcType=VARCHAR},
+            JOB_STATUS = #{jobStatus,jdbcType=VARCHAR},
+            JOB_PARAMS = #{jobParams,jdbcType=VARCHAR},
+            JOB_TYPE = #{jobType,jdbcType=VARCHAR},
+            REMOTE_URI = #{remoteUri,jdbcType=VARCHAR},
+            HTTP_METHOD = #{httpMethod,jdbcType=VARCHAR},
+            DESCRIPTION = #{description,jdbcType=VARCHAR},
+            METHOD_NAME = #{methodName,jdbcType=VARCHAR},
+            BEAN_CLASS = #{beanClass,jdbcType=VARCHAR},
+            UPDATE_AT = NOW(),
+            UPDATE_BY = 'system'
+        WHERE ID = #{id,jdbcType=NUMERIC}
+    </update>
 </mapper>

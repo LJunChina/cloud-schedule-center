@@ -11,6 +11,8 @@ import java.io.Serializable;
 public class ScheduleTaskRequest implements Serializable {
     private static final long serialVersionUID = -7843031337393694811L;
 
+    private long id;
+
     private String jobName;
 
     private String jobGroup;
@@ -34,6 +36,34 @@ public class ScheduleTaskRequest implements Serializable {
     private String jobParams;
 
     private String httpMethod;
+
+    private Integer pageIndex;
+
+    private Integer pageSize;
+
+    public long getId() {
+        return id;
+    }
+
+    public void setId(long id) {
+        this.id = id;
+    }
+
+    public Integer getPageIndex() {
+        return pageIndex;
+    }
+
+    public void setPageIndex(Integer pageIndex) {
+        this.pageIndex = pageIndex;
+    }
+
+    public Integer getPageSize() {
+        return pageSize;
+    }
+
+    public void setPageSize(Integer pageSize) {
+        this.pageSize = pageSize;
+    }
 
     public String getJobName() {
         return jobName;
